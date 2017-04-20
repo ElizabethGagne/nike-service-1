@@ -4,8 +4,8 @@ String basePath = mainFolder + "/" +  projectFolder
 String gitRepo = 'nike-service-1'
 String gitUrl = 'https://github.com/ElizabethGagne/' + gitRepo
 
-workflowJob("$basePath/1. pre-configure") {
-  	scm {
+pipelineJob("$basePath/1. pre-configure") {
+    scm {
         git("$gitUrl")
     }
 
@@ -21,8 +21,8 @@ workflowJob("$basePath/1. pre-configure") {
     }
 }
 
-workflowJob("$basePath/2. create-deployment") {
-  	scm {
+pipelineJob("$basePath/2. create-deployment") {
+    scm {
         git("$gitUrl")
     }
 
@@ -33,14 +33,14 @@ workflowJob("$basePath/2. create-deployment") {
 
     definition {
         cps {
-            script(readFileFromWorkspace('pipeline/jobs/Infrastructure.groovy'))
+            script(readFileFromWorkspace('pipeline/jobs/CreateDeployment.groovy'))
             sandbox()
         }
     }
 }
 
-workflowJob("$basePath/3. update-service") {
-  	scm {
+pipelineJob("$basePath/3. update-service") {
+    scm {
         git("$gitUrl")
     }
 
@@ -55,7 +55,7 @@ workflowJob("$basePath/3. update-service") {
     definition {
         cps {
             script(readFileFromWorkspace('pipeline/jobs/UpdateService.groovy'))
-    	    sandbox()
+            sandbox()
         }
     }
 }
