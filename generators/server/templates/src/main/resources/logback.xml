@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <jmxConfigurator/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d %5level [%15.15t] %-40.40logger{39} [ %X{REQ} ] - %msg%n%xEx
+            </Pattern>
+        </layout>
+    </appender>
+
+    <logger name="com.adesa" level="DEBUG" />
+    <logger name="org.dozer" level="INFO" />
+    <logger name="org.apache.kafka" level="INFO" />
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

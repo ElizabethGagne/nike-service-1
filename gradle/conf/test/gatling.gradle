@@ -1,0 +1,68 @@
+dependencies {
+  compile "io.gatling:gatling-app:$gatling_version"
+  compile "io.gatling:gatling-recorder:$gatling_version"
+  testCompile "io.gatling:gatling-http:${gatling_version}"
+  testCompile "io.gatling:gatling-core:${gatling_version}"
+  testCompile "io.gatling.highcharts:gatling-charts-highcharts:${gatling_version}"
+  testCompile "io.spray:spray-json_2.10:$spray_version"
+  testCompile "cglib:cglib-nodep:${gatling_cglib_version}"
+  testCompile "org.apache.commons:commons-lang3:$common_lang_version"
+
+}
+
+
+task pathingJarForGradle(type: Jar) {
+  dependsOn configurations.runtime
+  appendix = 'pathing'
+
+  doFirst {
+    manifest {
+      attributes "Class-Path": sourceSets.test.runtimeClasspath.files.collect {
+        it.toURL().toString().replaceFirst("file:/", '/')
+      }.join(' ')
+    }
+  }
+}
+
+
+task gatlingRun(dependsOn: ['compileTestScala','pathingJarForGradle']) {
+
+  sourceSets {
+    test {
+      scala.srcDirs = ['src/gatling/simulations']
+      resources.srcDirs = ['src/gatling/bodies', 'src/gatling/conf', 'src/gatling/data']
+    }
+  }
+
+  doFirst {
+    def logFile = new File(project.buildDir, 'gatling.log')
+    def failedSimulations = []
+    fileTree(dir:'build/classes/test').filter( {x -> x.name.endsWith('Simulation.class')}).each {
+      def simulationName = it.parentFile.name + '.' + it.name.replace('.class','')
+      project.javaexec { javaExec ->
+        javaExec.systemProperties  System.properties
+        javaExec.standardOutput = logFile.newOutputStream()
+        javaExec.classpath = sourceSets.test.output + files(pathingJarForGradle.archivePath)
+        javaExec.classpath.each{ println it}
+        javaExec.main = 'io.gatling.app.Gatling'
+        javaExec.args '-sf', sourceSets.test.output,
+          '-bf', sourceSets.test.output.classesDir,
+          '-s', simulationName,
+          '-rf', (buildDir.toString() + '/reports/gatling'),
+          '-bdf',sourceSets.test.resources.srcDirs[0],
+          '-df',sourceSets.test.resources.srcDirs[2]
+
+      }
+      def output = logFile.text
+      println output
+
+      if(output.contains('-- Errors --')) {
+        failedSimulations += simulationName
+      }
+    }
+
+    if(failedSimulations.size > 0) {
+      throw new GradleException("The following gatling simulations failed: $failedSimulations")
+    }
+  }
+}

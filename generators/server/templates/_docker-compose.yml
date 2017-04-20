@@ -1,0 +1,7 @@
+version: '3'
+services:
+  <%= dasherizedBaseName %>:
+    build: .
+    image: <%= dasherizedBaseName %>:latest
+    ports:
+      - <%= serverPort %>:<%= serverPort %>

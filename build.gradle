@@ -1,0 +1,107 @@
+buildscript {
+
+  ext {
+    isOpenshift = "$buildProfile".toString() == 'openshift'
+  }
+
+  if(isOpenshift) {
+      apply from: 'gradle/conf/openshift-repositories.gradle', to: buildscript
+  }else {
+     repositories {
+       mavenLocal()
+       mavenCentral()
+       maven {
+         url "https://plugins.gradle.org/m2/"
+       }
+     }
+  }
+
+  dependencies {
+    classpath group: 'org.springframework.boot',        name: 'spring-boot-gradle-plugin',      version: springBootVersion
+    classpath group: 'io.franzbecker',                  name: 'gradle-lombok',                  version: lombok_version
+    classpath group: 'org.sonarsource.scanner.gradle',  name: 'sonarqube-gradle-plugin',        version: sonar_version
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'scala'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.franzbecker.gradle-lombok'
+apply plugin: 'jacoco'
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.SR5"
+  }
+}
+
+configurations {
+  all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+
+jar {
+  baseName = "$mavenArtifactId"
+  version = "$version"
+}
+
+bootRun {
+  systemProperties System.properties
+}
+
+
+jacoco {
+  toolVersion = "0.7.5+"
+}
+
+jacocoTestReport {
+  reports {
+    xml.enabled false
+    csv.enabled false
+    html.destination "${buildDir}/jacocoHtml"
+  }
+}
+
+test {
+  systemProperties 'property': 'value'
+  jacoco {
+    append = false
+  }
+}
+
+
+processResources {
+  filesMatching('**/*.properties') {
+    expand(project.properties)
+  }
+}
+
+if(isOpenshift) {
+  apply from: 'gradle/conf/openshift-repositories.gradle', to: project
+  apply from: 'gradle/conf/test/sonar.gradle', to: project
+}else {
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+}
+
+apply from: 'gradle/conf/boot.gradle'
+apply from: 'gradle/conf/swagger.gradle'
+apply from: 'gradle/conf/jackson.gradle'
+apply from: 'gradle/conf/misc.gradle'
+apply from: 'gradle/conf/metrics.gradle'
+apply from: 'gradle/conf/ide.gradle'
+apply from: 'gradle/conf/admin-client.gradle'
+//apply from: 'gradle/conf/security.gradle'
+
+apply from: 'gradle/conf/test/integration.gradle'
+apply from: 'gradle/conf/test/jbehave.gradle'
+apply from: 'gradle/conf/test/unit.gradle'
+apply from: 'gradle/conf/test/gatling.gradle'

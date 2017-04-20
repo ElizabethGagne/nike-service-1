@@ -1,0 +1,5 @@
+server:
+    port: <%= serverPort %>
+management:
+  security:
+    enabled: false

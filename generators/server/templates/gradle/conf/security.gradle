@@ -1,0 +1,4 @@
+dependencies {
+	compile group: 'org.springframework.boot',     	name: 'spring-boot-starter-security', 	version: springBootVersion
+	compile group: 'com.auth0',        				name: 'auth0-spring-security-api',     	version: auth0_version
+}

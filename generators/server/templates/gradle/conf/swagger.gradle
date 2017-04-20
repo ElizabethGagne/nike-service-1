@@ -1,0 +1,5 @@
+dependencies {
+	compile group: 'io.springfox',                    name: 'springfox-swagger-ui',             version: swaggerReleaseVersion 
+  	compile group: 'io.springfox',                    name: 'springfox-swagger2',               version: swaggerReleaseVersion 
+  	compile group: 'io.springfox',                    name: 'springfox-bean-validators',        version: swaggerReleaseVersion
+}

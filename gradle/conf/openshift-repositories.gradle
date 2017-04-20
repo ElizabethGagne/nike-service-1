@@ -1,0 +1,4 @@
+repositories {
+  mavenLocal()
+  maven { url "http://nexus3.default.svc/repository/maven-public/" }
+}

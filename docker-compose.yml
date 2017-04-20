@@ -1,0 +1,7 @@
+version: '3'
+services:
+  nike-service-1:
+    build: .
+    image: nike-service-1:latest
+    ports:
+      - 7777:7777

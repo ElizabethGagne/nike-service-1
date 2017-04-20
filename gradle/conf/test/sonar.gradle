@@ -1,0 +1,19 @@
+apply plugin: 'org.sonarqube'
+
+sonarqube {
+  properties {
+    property "sonar.host.url","$sonarUrl"
+    property "sonar.projectName","nike-service-1"
+    property "sonar.sourceEncoding", "UTF-8"
+    property "sonar.tests", "src/test/java,src/test/groovy"
+    property "sonar.exclusions",
+      	"com/nike/service1/generated/**/*.*" +
+     	",com/nike/service1/Application.java" +
+     	",com/nike/service1/dto/**/*.*" +
+     	",com/nike/service1/entity/**/*.*"
+  }
+}
+
+dependencies {
+
+}

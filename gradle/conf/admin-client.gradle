@@ -1,0 +1,5 @@
+dependencies {
+
+  compile group: 'de.codecentric',        name: 'spring-boot-admin-starter-client',       version: springBootAdminVersion
+
+}

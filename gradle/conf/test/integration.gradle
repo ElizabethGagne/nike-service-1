@@ -1,0 +1,17 @@
+sourceSets {
+    integration { test ->
+        compileClasspath = sourceSets.main.output + sourceSets.test.output + configurations.testRuntime
+        runtimeClasspath = output + sourceSets.main.output + sourceSets.test.output + configurations.testRuntime
+
+        groovy.srcDirs = ['src/integration/groovy']
+    }
+}
+
+dependencies {
+  testCompile "com.github.tomakehurst:wiremock-standalone:${wireMockVersion}"
+}
+
+task integration(type: Test) {
+    testClassesDir = sourceSets.integration.output.classesDir
+    classpath = sourceSets.integration.runtimeClasspath
+}

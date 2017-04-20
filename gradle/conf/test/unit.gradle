@@ -1,0 +1,9 @@
+dependencies {
+	testCompile group: 'org.spockframework',          name: 'spock-core',                       version: test_spock_core
+    testCompile group: 'org.spockframework',          name: 'spock-spring',                     version: test_spock_core
+    testCompile group: 'org.hamcrest',                name: 'hamcrest-core',                    version: hamcrest_version
+    testCompile group: 'org.springframework.cloud',   name: 'spring-cloud-stream-test-support', version: stream_test_version
+    testCompile group: 'org.springframework.boot',    name: 'spring-boot-starter-test',         version: springBootVersion
+    testCompile group: 'io.springfox',                name: 'springfox-staticdocs',             version: swaggerReleaseVersion
+    testCompile group: 'cglib',                       name: 'cglib-nodep',                      version: cglib_version
+}

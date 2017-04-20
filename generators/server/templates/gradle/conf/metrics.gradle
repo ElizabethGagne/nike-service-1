@@ -1,0 +1,6 @@
+dependencies {
+
+   compile group: 'com.codahale.metrics',	name: 'metrics-core', 				version: codahale_metrics_version
+   compile group: 'com.codahale.metrics', 	name: 'metrics-annotation', 		version: codahale_metrics_version
+   compile group: 'io.prometheus', 			name: 'simpleclient_spring_boot', 	version: prometheus_version
+}

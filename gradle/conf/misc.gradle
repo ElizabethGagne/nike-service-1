@@ -1,0 +1,7 @@
+dependencies {
+  compile group: 'ch.qos.logback',                  name: 'logback-classic',                  version: log_back_classic
+  compile group: 'net.sf.dozer',                    name: 'dozer',                            version: dozer_version
+  compile group: 'org.codehaus.groovy',             name: 'groovy-all',                       version: groovy_version
+  compile group: 'com.google.guava',                name: 'guava',                            version: guava_version
+  compile group: 'joda-time',                       name: 'joda-time',                        version: joda_time_version
+}

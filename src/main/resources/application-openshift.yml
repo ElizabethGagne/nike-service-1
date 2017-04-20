@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  boot:
+    admin:
+      url: http://nw-boot-admin:8080
+      client:
+        name: nike-service-1
+        prefer-ip: true
+management:
+  security:
+    enabled: false

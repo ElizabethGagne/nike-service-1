@@ -1,0 +1,11 @@
+dependencies {
+
+  compile group: 'org.springframework.boot',        name: 'spring-boot-starter-tomcat',       version: springBootVersion
+  compile group: 'org.springframework.boot',        name: 'spring-boot-starter',              version: springBootVersion
+  compile group: 'org.springframework.boot',        name: 'spring-boot-starter-actuator',     version: springBootVersion
+  compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
+    exclude module: "spring-boot-starter-jetty"
+  }
+  compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+  compile group: 'org.scala-lang', 					name: 'scala-library', 					  version: scala_version
+}
