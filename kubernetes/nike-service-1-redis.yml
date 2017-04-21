@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: nikeservice1-redis
+spec:
+  serviceName: nikeservice1-redis
+  selector:
+    matchLabels:
+      app: nikeservice1-redis
+  template:
+    metadata:
+      labels:
+        app: nikeservice1-redis
+    spec:
+      volumes:
+      - name: data
+        emptyDir: {}
+      containers:
+      - name: redis
+        image: redis:3.2.8
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /data/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nikeservice1-redis
+spec:
+  selector:
+    app: nikeservice1-redis
+  ports:
+  - port: 6379
+    protocol: TCP

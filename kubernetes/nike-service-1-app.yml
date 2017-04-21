@@ -1,0 +1,30 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nikeservice1
+spec:
+  selector:
+    app: nikeservice1
+  ports:
+  - port: 7777
+
+---
+# Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nikeservice1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nikeservice1
+    spec:
+      containers:
+      - name: nikeservice1-app
+        image: NikeService1/nike-service-1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 7777

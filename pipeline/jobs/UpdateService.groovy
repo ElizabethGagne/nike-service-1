@@ -1,7 +1,6 @@
 String project = 'microservices'
 String repository = 'nike-service-1'
-String service = 'WeatherService'
-String environment = 'microservices'
+
 
 node {
 
@@ -18,41 +17,37 @@ node {
 
     sh 'echo ${AWS_TAG}'
 
-    // Build the java code with maven
-//    docker.image('maven:3.3.3-jdk-8').inside {
-//      buildService()
-//    }
+    // Build the java code with gradle
+    docker.image('gradle:3.5-jre8').inside {
+      buildService()
+    }
 
-//    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/*.xml'])
+    step([$class: "JUnitResultArchiver", testResults: "build/**/TEST-*.xml"])
 
-//    stage "Bake Service's Docker image" // ------------------------
+    stage "Bake Service's Docker image" // ------------------------
 
     // Bake the Docker Image
-//    def localImage = docker.build("${env.AWS_TAG}", "./${repository}")
-//    sh 'docker images'
+    def localImage = docker.build("${env.AWS_TAG}", ".")
+    sh 'docker images'
 
     // Login into Amazon ECR
-//    sh '$(aws ecr get-login)'
+    sh '$(aws ecr get-login)'
 
     // Push Docker Image to Amazon ECR Repository
-//    localImage.push()
+    localImage.push()
 
-//    stage "Deploy Service to ECS" // ------------------------------
+    stage "Update Service to Kubernetes" // ------------------------------
 
-//    deployService(service, environment, repository)
+    updateService(repository, image)
 }
 
 def buildService() {
-    def command = 'cd weather-service\n' + 'mvn clean package'
+    def command = 'cd ../../\n' + './gradlew build integration jbehave sonarqube -PbuildProfile=openshift -Dspring.profiles.active=openshift'
     sh command
 }
 
-def deployService(service, environment, repository) {
-
-
-    def command = 'cd pipeline/resources\n' +
-        '/bin/bash ./update-service.sh --image-tag ' + env.TAG_LIST +
-        ' --environment ' + environment + '  --service-name ' + service + ' --repository-name ' + repository
+def updateService(repository, image) {
+    def command = 'kubectl rolling-update ' + repository + ' --image=' + image
     sh command
 }
 

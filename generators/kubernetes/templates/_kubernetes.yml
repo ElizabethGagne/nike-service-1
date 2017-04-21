@@ -1,0 +1,30 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: <%= baseName.toLowerCase() %>
+spec:
+  selector:
+    app: <%= baseName.toLowerCase() %>
+  ports:
+  - port: <%= serverPort %>
+
+---
+# Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: <%= baseName.toLowerCase() %>
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: <%= baseName.toLowerCase() %>
+    spec:
+      containers:
+      - name: <%= baseName.toLowerCase() %>-app
+        image: <%= targetImageName %>
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: <%= serverPort %>

@@ -1,0 +1,37 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: <%= baseName.toLowerCase() %>-redis
+spec:
+  serviceName: <%= baseName.toLowerCase() %>-redis
+  selector:
+    matchLabels:
+      app: <%= baseName.toLowerCase() %>-redis
+  template:
+    metadata:
+      labels:
+        app: <%= baseName.toLowerCase() %>-redis
+    spec:
+      volumes:
+      - name: data
+        emptyDir: {}
+      containers:
+      - name: redis
+        image: redis:3.2.8
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /data/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: <%= app.baseName.toLowerCase() %>-redis
+spec:
+  selector:
+    app: <%= app.baseName.toLowerCase() %>-redis
+  ports:
+  - port: 6379
+    protocol: TCP

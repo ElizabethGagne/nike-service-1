@@ -105,3 +105,5 @@ apply from: 'gradle/conf/test/integration.gradle'
 apply from: 'gradle/conf/test/jbehave.gradle'
 apply from: 'gradle/conf/test/unit.gradle'
 apply from: 'gradle/conf/test/gatling.gradle'
+
+apply from: 'gradle/conf/redis.gradle'

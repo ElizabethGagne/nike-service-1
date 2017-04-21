@@ -1,0 +1,45 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: <%= baseName.toLowerCase() %>-elasticsearch
+spec:
+  serviceName: <%= baseName.toLowerCase() %>-elasticsearch
+  selector:
+    matchLabels:
+      app: <%= baseName.toLowerCase() %>-elasticsearch
+  template:
+    metadata:
+      labels:
+        app: <%= baseName.toLowerCase() %>-elasticsearch
+    spec:
+      volumes:
+      - name: data
+        emptyDir: {}
+      containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:5.3.1
+        ports:
+        - containerPort: 9200
+          name: http
+          protocol: TCP
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/elasticsearch/data/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: <%= app.baseName.toLowerCase() %>-elasticsearch
+spec:
+  selector:
+    app: <%= app.baseName.toLowerCase() %>-elasticsearch
+  ports:
+  - port: 9200
+    name: http
+    protocol: TCP
+  - port: 9300
+    name: transport
+    protocol: TCP
