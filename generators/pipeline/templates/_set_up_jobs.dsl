@@ -1,7 +1,7 @@
 String mainFolder = 'microservices'
-String projectFolder = 'NikeService1'
+String projectFolder = '<%= dockerRepositoryName %>'
 String basePath = mainFolder + "/" +  projectFolder
-String gitUrl = 'https://github.com/ElizabethGagne/nike-service-1'
+String gitUrl = '<%= gitURL %>'
 
 pipelineJob("$basePath/1. pre-configure") {
     scm {

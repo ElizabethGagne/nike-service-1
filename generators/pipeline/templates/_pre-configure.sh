@@ -4,7 +4,7 @@ USAGE="usage: ./pre-configure.sh"
 
 # Global variables
 PROJECT="microservices"
-declare -a EXPECTED_REPOSITORIES=("NikeService1")
+declare -a EXPECTED_REPOSITORIES=("<%= dockerRepositoryName %>")
 AWS_DEFAULT_REGION=$(aws configure get default.region)
 AWS_ACCOUNT_NUMBER=$(aws iam get-user | awk '/arn:aws:/{print $2}' | cut -d \: -f 5)
 

@@ -1,5 +1,5 @@
 String project = 'microservices'
-String repository = 'NikeService1'
+String repository = '<%= dockerRepositoryName %>'
 
 node {
     git url: GIT_URL
@@ -12,7 +12,7 @@ node {
 
     sh 'echo ${AWS_TAG}'
 
-    sh 'sed -i.bak s,image:.*,image:${AWS_TAG},g kubernetes/nike-service-1-app.yml'
+    sh 'sed -i.bak s,image:.*,image:${AWS_TAG},g kubernetes/<%= dasherizedBaseName.toLowerCase() %>-app.yml'
 
     stage "Deploy to Kubernetes" // --------------------------------------
     sh 'kubectl apply -f kubernetes'
