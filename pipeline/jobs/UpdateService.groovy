@@ -1,5 +1,5 @@
 String project = 'microservices'
-String repository = 'NikeService1'
+String repository = 'nike-service-1'
 
 
 node {

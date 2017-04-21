@@ -14,7 +14,7 @@ This directory is to automate the Jenkins Pipeline of the Microservice. For the 
 
 You have to create the seed job manually by following those instructions in Jenkins:
 
-* Create a Folder under the microservices Folder, New Item -> Item Name: `NikeService1`, click 'Folder' radio button)
+* Create a Folder under the microservices Folder, New Item -> Item Name: `nike-service-1`, click 'Folder' radio button)
 * Create Job, New Item -> Item Name: `seed`, click 'Freestyle project' radio button
 * Source Code Management -> Git Repositories URL: `https://github.com/ElizabethGagne/nike-service-1`
 * Build Triggers -> Poll SCM schedule: `H/5 * * * *`

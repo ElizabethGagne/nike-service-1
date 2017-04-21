@@ -14,8 +14,8 @@ This directory is to automate the Jenkins Pipeline of the Microservice. For the 
 
 You have to create the seed job manually by following those instructions in Jenkins:
 
-* Create a Folder under the microservices Folder, New Item -> Item Name: `<%= dockerRepositoryName %>`, click 'Folder' radio button)
+* Create a Folder under the microservices Folder, New Item -> Item Name: `<%= dasherizedBaseName.toLowerCase() %>`, click 'Folder' radio button)
 * Create Job, New Item -> Item Name: `seed`, click 'Freestyle project' radio button
 * Source Code Management -> Git Repositories URL: `<%= gitURL %>`
 * Build Triggers -> Poll SCM schedule: `H/5 * * * *`
-* Add Build Steps, Process Job DSLs -> DSL Scripts: `pipeline/job/set_up_jobs.dsl`
+* Add Build Steps, Process Job DSLs -> DSL Scripts: `pipeline/jobs/set_up_jobs.dsl`

@@ -1,5 +1,5 @@
 String mainFolder = 'microservices'
-String projectFolder = '<%= dockerRepositoryName %>'
+String projectFolder = '<%= dasherizedBaseName.toLowerCase() %>'
 String basePath = mainFolder + "/" +  projectFolder
 String gitUrl = '<%= gitURL %>'
 

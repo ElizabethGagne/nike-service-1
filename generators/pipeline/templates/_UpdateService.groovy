@@ -1,5 +1,5 @@
 String project = 'microservices'
-String repository = '<%= dockerRepositoryName %>'
+String repository = '<%= dasherizedBaseName.toLowerCase() %>'
 
 
 node {
